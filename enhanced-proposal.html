@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Journey of Love | Khushi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF4D6D;
+            --secondary: #FF8FA3;
+            --accent: #FFB3C1;
+            --bg-light: #FFF0F3;
+            --text-dark: #2E2E2E;
+            --gold: #FFD700;
+            --purple: #9932CC;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-light), var(--secondary));
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--text-dark);
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--primary);
+            font-weight: 400;
+            margin-bottom: 3rem;
+        }
+
+        .timeline {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--primary);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            width: 50%;
+            padding: 2rem;
+            position: relative;
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .timeline-item.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: 50%;
+            transform: translateX(100%);
+        }
+
+        .memory-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .memory-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .memory-card h3 {
+            color: var(--purple);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .memory-card p {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            aspect-ratio: 1;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .proposal-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .heart-animation {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .heart-shape {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            clip-path: path('M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181');
+            transform: scale(0);
+            transform-origin: center;
+            animation: heartbeat 1.5s ease infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.8); }
+        }
+
+        .final-message {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            color: var(--text-dark);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .final-message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: var(--purple);
+        }
+
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            color: var(--text-dark);
+        }
+
+        .song-title {
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 150px;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item {
+                width: 100%;
+                margin-left: 2rem !important;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="section hero">
+        <h1 class="hero-title" data-aos="fade-down">My Forever Love</h1>
+        <h2 class="hero-subtitle" data-aos="fade-up">Khushi</h2>
+    </section>
+
+    <section class="section timeline">
+        <div class="timeline-item" data-date="First Meeting">
+            <div class="memory-card">
+                <h3>The Day We Met</h3>
+                <p>In that rain ..we were standing together.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item" data-date="First Date">
+            <div class="memory-card">
+                <h3>Our First Unofficial Date</h3>
+                <p>Walking around the ground , filling bottles , I just love it...</p>
+            </div>
+        </div>
+
+        <div class="timeline-item" data-date="The Realization">
+            <div class="memory-card">
+                <h3>When I Knew</h3>
+                <p>It wasn't one big moment, but a thousand little ones....</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section gallery">
+        <div class="gallery-item" data-aos="zoom-in">
+            <img src="D:\PRU\IMG-20241120-WA0022.jpg" alt="Our first selfie">
+        </div>
+        <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
+            <img src="D:\PRU\WhatsApp Image 2024-12-24 at 12.16.16_2c54aa24.jpg" alt="KISS">
+        </div>
+        <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
+            <img src="D:\PRU\Screenshot 2025-01-12 201521.png" alt="and ye na bhulna">
+        </div>
+    </section>
+
+    <section class="section proposal-section">
+        <div class="heart-animation">
+            <div class="heart-shape"></div>
+        </div>
+        <div class="final-message">
+            <p>Khushi...</p>
+            <p>Will you make every tomorrow as beautiful as you've made my past?</p>
+            <p>Will you marry me? ❤️</p>
+        </div>
+    </section>
+
+    <div class="music-player">
+        <button class="play-btn">▶</button>
+        <div class="song-info">
+            <span class="song-title">MERI JAAN </span>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Timeline animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Music player functionality
+        const playBtn = document.querySelector('.play-btn');
+        const progressBar = document.querySelector('.progress');
+        const audio = new Audio("C:\Users\shrey\Music\Liked Music\A Bird's Last Look.mp3");
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.textContent = '▶';
+            } else {
+                audio.play();
+                playBtn.textContent = '⏸';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${progress}%`;
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Final message reveal
+        const finalMessage = document.querySelector('.final-message');
+        const proposalSection = document.querySelector('.proposal-section');
+
+        const finalObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    finalMessage.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.8 });
+
+        finalObserver.observe(proposalSection);
+    </script>
+</body>
+</html>
